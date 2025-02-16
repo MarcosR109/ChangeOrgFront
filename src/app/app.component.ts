@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet,RouterModule } from '@angular/router';
 import { TokenService } from './shared/token.service';
 import { AuthStateService } from './shared/auth-state.service';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [SigninComponent, SignupComponent, RouterOutlet, CommonModule],
+  imports: [SigninComponent, SignupComponent, RouterOutlet, CommonModule,RouterModule],
 })
 export class AppComponent implements OnInit {
   isSignedIn!: boolean;
@@ -29,6 +29,6 @@ export class AppComponent implements OnInit {
   signOut() {
     this.auth.setAuthState(false);
     this.token.removeToken();
-    this.router.navigate(['login']);
+    this.router.navigate(['peticiones/home']);
   }
 }

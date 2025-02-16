@@ -1,4 +1,23 @@
+<nav class="navbar navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand flex-row text-danger h1" [routerLink]="'/peticiones/home'" role="button">Change.org</a>
+        <div *ngIf="isSignedIn">
+            <a 
+                   routerLink="peticiones/create"
+               class="me-3 link-danger nav-item link-underline-opacity-0">Inicia
+                una petición</a>
+            <a href=""
+               class="me-3 link-danger nav-item link-underline-opacity-0">Peticiones</a>
+            <a class=" fs-4 m-2 link-danger" >Mostrar mis peticiones</a>
+            <a class=" fs-4 m-2 link-danger" >Mostrar peticiones firmadas</a>
+            <a class=" fs-4 m-2 link-danger mx-2" (click)="signOut()" [routerLink]="'/index'" >Cerrar sesión</a>
+            <form method="POST" id="logout" action="">
+            </form>
+        </div>
+        <div *ngIf="!isSignedIn">
+        <a class="me-3 link-danger nav-item link-underline-opacity-0" routerLink="register" >Register</a>
+        <a class="me-3 link-danger nav-item link-underline-opacity-0" routerLink="login" >Login</a>
+    </div>
+    </div>
+</nav>
 <router-outlet></router-outlet>
-<app-signup></app-signup>
-
-<button *ngIf="isSignedIn" (click)="signOut()">Logout</button>
