@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ViewChild } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -8,13 +8,16 @@ import { PeticionModule } from './peticion/peticion.module';
 import { IndexComponent } from './peticion/index/index.component';
 import { CreateComponent } from './peticion/create/create.component';
 import { HomeComponent } from './peticion/home/home.component';
+import { ViewComponent } from './peticion/view/view.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: SigninComponent },
   { path: 'register', component: SignupComponent },
   { path: 'profile', component: UserProfileComponent },
-  { path:"peticiones/create",component:CreateComponent},
+  { path: "peticiones/create",component:CreateComponent},
   { path: "peticiones/home",component:HomeComponent},
+  { path: "peticiones/index",component:IndexComponent},
+  {path:"peticiones/view/:id",component:ViewComponent},
   { path : 'index',component:IndexComponent }
 ];
 @NgModule({

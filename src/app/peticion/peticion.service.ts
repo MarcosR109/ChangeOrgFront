@@ -21,11 +21,13 @@ export class PeticionService {
   }
 
   store(peticion:FormData):Observable<any>{
-        const token = this.tokenS.getToken();
-        const headers = new HttpHeaders({
-          Authorization: `Bearer ${token}`,
-        });
-        console.log(peticion);
-    return this.http.post<{Message:string,Data:Peticion}>("http://127.0.0.1:8000/api/peticiones/store",peticion,{headers}).pipe(map(response => response.Data))
+    console.log(peticion);
+    return this.http.post<{Message:string,data:Peticion}>("http://127.0.0.1:8000/api/peticiones/store",peticion).pipe(map(
+    response => response.data))
+  }
+  show(peticionid:number){
+    return this.http.get<{Message:string,Data:Peticion}>("http://127.0.0.1:8000/api/peticiones/show/"+peticionid).pipe(map(
+      response => response.Data)
+    );
   }
 }

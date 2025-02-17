@@ -6,6 +6,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { SigninComponent } from './components/signin/signin.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { CommonModule } from '@angular/common';
+import { AuthService } from './shared/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit {
   constructor(
     private auth: AuthStateService,
     public router: Router,
-    public token: TokenService
+    public token: TokenService,
+    public authS:AuthService,
   ) {}
   ngOnInit() {
     this.auth.userAuthState.subscribe((val) => {
@@ -28,6 +30,7 @@ export class AppComponent implements OnInit {
   // Signout
   signOut() {
     this.auth.setAuthState(false);
+    this.authS.logout().subscribe((response)=>console.log(response),(error)=>console.log(error))
     this.token.removeToken();
     this.router.navigate(['peticiones/home']);
   }

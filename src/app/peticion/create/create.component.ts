@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { PeticionService } from '../peticion.service';
 import { Peticion } from '../../interfaces/peticion';
+import { Router, RouterOutlet,RouterModule } from '@angular/router';
 @Component({
   selector: 'app-create',
   imports: [CommonModule, ReactiveFormsModule],
@@ -12,11 +13,11 @@ import { Peticion } from '../../interfaces/peticion';
   peticionForm!: FormGroup;
   categorias = [
     { id: 1, nombre: 'Medio Ambiente' },
-    { id: 2, nombre: 'Derechos Humanos' },
-    { id: 3, nombre: 'Política' }
-  ]; // Debes reemplazar esto con datos reales de un servicio
+    { id: 1, nombre: 'Derechos Humanos' },
+    { id: 1, nombre: 'Política' }
+  ];
 
-  constructor(private fb: FormBuilder, private petiS: PeticionService) { }
+  constructor(private fb: FormBuilder, private petiS: PeticionService,public router:Router) { }
 
   ngOnInit(): void {
     this.peticionForm = this.fb.group({
@@ -52,24 +53,26 @@ import { Peticion } from '../../interfaces/peticion';
       formData.append('destinatario', peticion.destinatario||'');
       formData.append('categoria_id', peticion.categoria_id?.toString()||'');
 
-      // Si hay una imagen, añadirla a FormData
       if (this.peticionForm.value.foto) {
         formData.append('foto', this.peticionForm.value.foto);
       }
 
-      // Log para verificar los datos antes de enviar
+      
       console.log('Enviando petición:', peticion);
       console.log('FormData:', formData);
-
-      // Enviar la petición al servicio
       this.petiS.store(formData).subscribe(
         (response) => {
-          console.log('Petición creada con éxito:', response);
+          console.log('Petición creada con éxito:',response);
+          if(response)
+            {
+              this.router.navigate(['/peticiones/view',response.id])
+            }
         },
         (error) => {
           console.error('Error al crear la petición:', error);
         }
       );
+      
     }
   }
 }

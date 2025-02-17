@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Peticion } from '../../interfaces/peticion';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-index',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
 })
