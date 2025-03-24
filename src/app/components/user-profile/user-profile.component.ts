@@ -14,7 +14,7 @@ export class User {
 export class UserProfileComponent implements OnInit {
   UserProfile!: User;
   constructor(public authService: AuthService, private token: TokenService) {
-    this.authService.profileUser(token).subscribe((data: any) => {
+    this.authService.profileUser().subscribe((data: any) => {
       console.log(data);
       this.UserProfile = data;
     });

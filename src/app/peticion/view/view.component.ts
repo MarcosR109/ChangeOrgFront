@@ -25,11 +25,15 @@ export class ViewComponent implements OnInit{
         this.peticionService.show(Number(id)).subscribe(
           (data) => {
             this.peticion = data;
+            if (this.peticion?.file) {
+              this.peticion.file.file_path = data.file?.name;
+            }
             console.log(this.peticion);
+            console.log(this.peticion.file?.name);
           },
           (error) => {
             console.error('Error al obtener la petición:', error);
-          }
+          },
         );
       }
     });

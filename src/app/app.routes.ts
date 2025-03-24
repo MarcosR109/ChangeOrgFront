@@ -9,19 +9,23 @@ import { IndexComponent } from './peticion/index/index.component';
 import { CreateComponent } from './peticion/create/create.component';
 import { HomeComponent } from './peticion/home/home.component';
 import { ViewComponent } from './peticion/view/view.component';
+import { MyindexComponent } from './peticion/myindex/myindex.component';
+import { EditComponent } from './peticion/edit/edit.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: SigninComponent },
   { path: 'register', component: SignupComponent },
   { path: 'profile', component: UserProfileComponent },
-  { path: "peticiones/create",component:CreateComponent},
-  { path: "peticiones/home",component:HomeComponent},
-  { path: "peticiones/index",component:IndexComponent},
-  {path:"peticiones/view/:id",component:ViewComponent},
-  { path : 'index',component:IndexComponent }
+  { path: 'peticiones/create', component: CreateComponent },
+  { path: 'peticiones/home', component: HomeComponent },
+  { path: 'peticiones/index', component: IndexComponent },
+  { path: 'peticiones/view/:id', component: ViewComponent },
+  { path: 'peticiones/listMine', component: MyindexComponent },
+  {path:'peticiones/edit/:id',component:EditComponent},
+  { path: 'index', component: IndexComponent },
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes),PeticionRoutingModule],
+  imports: [RouterModule.forRoot(routes), PeticionRoutingModule],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

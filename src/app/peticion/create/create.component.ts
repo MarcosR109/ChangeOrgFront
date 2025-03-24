@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PeticionService } from '../peticion.service';
 import { Peticion } from '../../interfaces/peticion';
 import { Router, RouterOutlet,RouterModule } from '@angular/router';
+import { Categoria } from '../../interfaces/categoria';
 @Component({
   selector: 'app-create',
   imports: [CommonModule, ReactiveFormsModule],
@@ -11,11 +12,7 @@ import { Router, RouterOutlet,RouterModule } from '@angular/router';
   styleUrl: './create.component.css'
 }) export class CreateComponent implements OnInit {
   peticionForm!: FormGroup;
-  categorias = [
-    { id: 1, nombre: 'Medio Ambiente' },
-    { id: 1, nombre: 'Derechos Humanos' },
-    { id: 1, nombre: 'Política' }
-  ];
+  categorias!:Categoria[];
 
   constructor(private fb: FormBuilder, private petiS: PeticionService,public router:Router) { }
 
@@ -27,6 +24,16 @@ import { Router, RouterOutlet,RouterModule } from '@angular/router';
       categoria: ['', Validators.required],
       foto: [null, Validators.required]
     });
+    this.petiS.cargaCategorias().subscribe(
+      (response)=>
+      {
+        console.log(response.categorias);
+        this.categorias=response.categorias
+      },
+      (error)=>{
+        console.log("Error cargando las categorías");
+      }
+    )
   }
 
   onFileSelected(event: any) {
@@ -41,12 +48,11 @@ import { Router, RouterOutlet,RouterModule } from '@angular/router';
         titulo: this.peticionForm.value.titulo,
         descripcion: this.peticionForm.value.descripcion,
         destinatario: this.peticionForm.value.destinatario,
-        firmantes: 0, // Probablemente se inicializa en 0
-        estado: 'pendiente', // O cualquier estado inicial que tenga en la BD
+        firmantes: 0,
+        estado: 'pendiente',
         categoria_id: Number(this.peticionForm.value.categoria),
       };
 
-      // Crear FormData para enviar la imagen
       const formData = new FormData();
       formData.append('titulo', peticion.titulo||'');
       formData.append('descripcion', peticion.descripcion||'');

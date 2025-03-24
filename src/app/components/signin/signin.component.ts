@@ -38,6 +38,9 @@ export class SigninComponent implements OnInit {
       },
       () => {
         this.authState.setAuthState(true);
+        this.authService.getRole().subscribe((role) => {
+          this.authState.setAuthRoleState(role);
+        });
         this.loginForm.reset();
         this.router.navigate(['/peticiones/home']);
       }

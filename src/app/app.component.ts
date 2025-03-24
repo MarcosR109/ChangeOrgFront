@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterOutlet,RouterModule } from '@angular/router';
+import { Router, RouterOutlet, RouterModule } from '@angular/router';
 import { TokenService } from './shared/token.service';
 import { AuthStateService } from './shared/auth-state.service';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -11,26 +11,43 @@ import { AuthService } from './shared/auth.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  imports: [SigninComponent, SignupComponent, RouterOutlet, CommonModule,RouterModule],
+  imports: [
+    SigninComponent,
+    SignupComponent,
+    RouterOutlet,
+    CommonModule,
+    RouterModule,
+  ],
 })
 export class AppComponent implements OnInit {
   isSignedIn!: boolean;
+  isAdmin!: boolean;
   title = 'ChangeOrgFront';
   constructor(
     private auth: AuthStateService,
     public router: Router,
     public token: TokenService,
-    public authS:AuthService,
+    public authS: AuthService
   ) {}
   ngOnInit() {
     this.auth.userAuthState.subscribe((val) => {
       this.isSignedIn = val;
     });
+    if (this.isSignedIn) {
+      this.auth.userRoleState.subscribe((role) => {
+        this.isAdmin = role === 1;
+        console.log(role);
+      });
+    }
   }
   // Signout
   signOut() {
     this.auth.setAuthState(false);
-    this.authS.logout().subscribe((response)=>console.log(response),(error)=>console.log(error))
+    this.authS.logout().subscribe(
+      (response) => console.log(response),
+      (error) => console.log(error)
+    );
+    this.auth.setAuthRoleState(0);
     this.token.removeToken();
     this.router.navigate(['peticiones/home']);
   }

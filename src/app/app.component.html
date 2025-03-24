@@ -8,9 +8,9 @@
                 una petición</a>
             <a href=""
                class="me-3 link-danger nav-item link-underline-opacity-0" [routerLink]="'peticiones/index'">Peticiones</a>
-            <a class=" fs-4 m-2 link-danger" >Mostrar mis peticiones</a>
-            <a class=" fs-4 m-2 link-danger" >Mostrar peticiones firmadas</a>
-            <a class=" fs-4 m-2 link-danger mx-2" (click)="signOut()" [routerLink]="'/index'" >Cerrar sesión</a>
+            <a class=" me-3 link-danger nav-item link-underline-opacity-0" [routerLink]="'peticiones/listMine/'" >Mostrar mis peticiones</a>
+            <a class=" me-3 link-danger nav-item link-underline-opacity-0" >Mostrar peticiones firmadas</a>
+            <a class=" me-3 link-danger nav-item link-underline-opacity-0" (click)="signOut()" [routerLink]="'/index'" >Cerrar sesión</a>
             <form method="POST" id="logout" action="">
             </form>
         </div>

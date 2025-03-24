@@ -5,41 +5,48 @@ import { HttpClient } from '@angular/common/http';
 import { Peticion } from '../../interfaces/peticion';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../shared/auth.service';
+import { AuthStateService } from '../../shared/auth-state.service';
 
 @Component({
   selector: 'app-index',
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './index.component.html',
-  styleUrl: './index.component.css'
+  styleUrl: './index.component.css',
 })
 export class IndexComponent {
   /**
    *
    */
   public peticionesList: any[] = [];
-  constructor(public peticiones:PeticionService) {
+  public isAdmin: boolean = false;
+  constructor(
+    public peticiones: PeticionService,
+    private auth: AuthStateService
+  ) {
     this.peticionesList = [];
   }
 
   ngOnInit(): void {
     this.peticiones.index().subscribe((response) => {
       console.log(response);
-      this.peticionesList = response; // Guardar los datos para usarlos en la vista
+      this.peticionesList = response;
+    });
+    this.auth.userRoleState.subscribe((role) => {
+      this.isAdmin = role === 1;
     });
   }
-/*
-
-Route::controller(PeticioneController::class)->group(function () {
-    Route::get('peticiones', 'index');
-    Route::get('peticiones/firmadas', 'listarFirmadas');
-    Route::get('peticiones/list', 'list');
-    Route::get('peticiones/{id}', 'listMine');
-    Route::get('peticiones/show/{id}', 'show');
-    Route::put('peticiones/{id}', 'update');
-    Route::post('peticiones/store', 'store');
-    Route::put('peticiones/estado/{id}', 'cambiarEstado');
-    Route::delete('peticiones/delete/{id}', 'delete');
-    Route::put('peticiones/firmar/{id}', 'firmar');
-});*/
-
+  delete(peticionId: number): void {
+    this.peticiones.delete(peticionId).subscribe(
+      (response) => {
+        console.log(response);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.peticionesList = this.peticionesList.filter(
+      (peticion) => peticion.id !== peticionId
+    );
+  }
 }
