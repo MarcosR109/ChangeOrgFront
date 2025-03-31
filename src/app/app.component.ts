@@ -33,12 +33,12 @@ export class AppComponent implements OnInit {
     this.auth.userAuthState.subscribe((val) => {
       this.isSignedIn = val;
     });
-    if (this.isSignedIn) {
+    /*if (this.isSignedIn) {
       this.auth.userRoleState.subscribe((role) => {
         this.isAdmin = role === 1;
         console.log(role);
       });
-    }
+    }*/
   }
   // Signout
   signOut() {

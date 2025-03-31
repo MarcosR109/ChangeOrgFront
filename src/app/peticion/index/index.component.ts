@@ -49,4 +49,5 @@ export class IndexComponent {
       (peticion) => peticion.id !== peticionId
     );
   }
+  
 }

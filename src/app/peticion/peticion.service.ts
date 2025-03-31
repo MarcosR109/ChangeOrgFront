@@ -6,7 +6,6 @@ import { map } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { TokenService } from '../shared/token.service';
 import { Token } from '@angular/compiler';
-import { response } from 'express';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,7 +18,7 @@ export class PeticionService {
         'http://127.0.0.1:8000/api/peticiones'
       )
       .pipe(
-        map((response) => response.Data) // Extraemos el array de peticiones de 'Data'
+        map((response) => response.Data, console.log(Response)) // Extraemos el array de peticiones de 'Data'
       );
   }
 
@@ -54,17 +53,17 @@ export class PeticionService {
       )
       .pipe(map((response) => response.Message));
   }
-  edit(peticion: FormData,peticionid:number): Observable<Peticion> {
+  edit(peticion: FormData, peticionid: number): Observable<Peticion> {
     return this.http
       .put<{ Message: string; Datos: Peticion }>(
-        `http://localhost:8000/api/peticiones/${peticionid}`,peticion
+        `http://localhost:8000/api/peticiones/${peticionid}`,
+        peticion
       )
-      .pipe(map((response) => response.Datos)
-      );
+      .pipe(map((response) => response.Datos));
   }
 
-  cargaCategorias():Observable<any>{
-    return this.http.get("http://localhost:8000/api/categorias");
+  cargaCategorias(): Observable<any> {
+    return this.http.get('http://localhost:8000/api/categorias');
   }
 }
 /*

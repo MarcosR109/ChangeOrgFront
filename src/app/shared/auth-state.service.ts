@@ -15,9 +15,9 @@ export class AuthStateService {
   constructor(public token: TokenService,public authService:AuthService) {
     this.userState = new BehaviorSubject<boolean>(this.token.isLoggedIn()!);
     this.userAuthState = this.userState.asObservable();
-    this.authService.getRole().subscribe(role => {
+    /*this.authService.getRole().subscribe(role => {
       this.userRole.next(role);
-    });
+    });*/
   }
 
   setAuthState(value: boolean) {

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PeticionRoutingModule } from './peticion-routing.module';
 import { IndexComponent } from './index/index.component';
 
 
@@ -9,7 +8,6 @@ import { IndexComponent } from './index/index.component';
   declarations: [],
   imports: [
     CommonModule,
-    PeticionRoutingModule
   ]
 })
 export class PeticionModule { }
