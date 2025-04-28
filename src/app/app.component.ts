@@ -30,25 +30,21 @@ export class AppComponent implements OnInit {
     public authS: AuthService
   ) {}
   ngOnInit() {
-    this.auth.userAuthState.subscribe((val) => {
-      this.isSignedIn = val;
+    this.auth.authStatus.subscribe((status) => {
+      console.log(status);
+      this.isSignedIn = status;
     });
-    /*if (this.isSignedIn) {
-      this.auth.userRoleState.subscribe((role) => {
-        this.isAdmin = role === 1;
-        console.log(role);
-      });
-    }*/
   }
   // Signout
   signOut() {
-    this.auth.setAuthState(false);
     this.authS.logout().subscribe(
-      (response) => console.log(response),
+      (response) =>console.log(response),
       (error) => console.log(error)
     );
-    this.auth.setAuthRoleState(0);
-    this.token.removeToken();
+    this.auth.isAuthenticated.next(false);
+    this.auth.role.next(1);
+    this.token.deleteToken();
+    this.token.deleteRole();
     this.router.navigate(['peticiones/home']);
   }
 }

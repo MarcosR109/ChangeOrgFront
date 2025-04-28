@@ -38,12 +38,10 @@ export class PeticionService {
       )
       .pipe(map((response) => response.Data));
   }
-  myIndex(): Observable<Peticion[]> {
-    return this.http
-      .get<{ Message: string; Data: Peticion[] }>(
-        'http://127.0.0.1:8000/api/peticiones/listMine'
-      )
-      .pipe(map((response) => response.Data));
+  myIndex() {
+    return this.http.get(
+      'http://127.0.0.1:8000/api/peticiones/listMine'
+    );
   }
   delete(peticionid: number): Observable<string> {
     console.log(peticionid);
@@ -65,18 +63,31 @@ export class PeticionService {
   cargaCategorias(): Observable<any> {
     return this.http.get('http://localhost:8000/api/categorias');
   }
-}
-/*
+  firmar(id: number): Observable<any> {
+    return this.http.put<{ Message: string; Data: Peticion }>(
+      'http://localhost:8000/api/peticiones/firmar/' + id,
+      {}
+    );
+  }
 
-Route::controller(PeticioneController::class)->group(function () {
-    Route::get('peticiones', 'index');
-    Route::get('peticiones/firmadas', 'listarFirmadas');
-    Route::get('peticiones/list', 'list');
-    Route::get('peticiones/{id}', 'listMine');
-    Route::get('peticiones/show/{id}', 'show');
-    Route::put('peticiones/{id}', 'update');
-    Route::post('peticiones/store', 'store');
-    Route::put('peticiones/estado/{id}', 'cambiarEstado');
-    Route::delete('peticiones/delete/{id}', 'delete');
-    Route::put('peticiones/firmar/{id}', 'firmar');
-});*/
+  cambiarEstado(id: number): Observable<any> {
+    return this.http.put<{ Message: string; Data: Peticion }>(
+      'http://localhost:8000/api/peticiones/estado/' + id,
+      {}
+    );
+  }
+}
+// /*
+// Route::controller(PeticioneController::class)->group(function () {
+//     Route::get('peticiones', 'index');
+//     Route::get('peticiones/firmadas', 'listarFirmadas');
+//     Route::get('peticiones/list', 'list');
+//     Route::get('peticiones/{id}', 'listMine');
+//     Route::get('peticiones/show/{id}', 'show');
+//     Route::put('peticiones/{id}', 'update');
+//     Route::post('peticiones/store', 'store');
+//     Route::put('peticiones/estado/{id}', 'cambiarEstado');
+//     Route::delete('peticiones/delete/{id}', 'delete');
+//     Route::put('peticiones/firmar/{id}', 'firmar');
+// });
+// */

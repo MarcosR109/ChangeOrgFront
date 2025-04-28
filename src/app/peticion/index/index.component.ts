@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { AuthStateService } from '../../shared/auth-state.service';
+import { log } from 'node:console';
 
 @Component({
   selector: 'app-index',
@@ -32,8 +33,9 @@ export class IndexComponent {
       console.log(response);
       this.peticionesList = response;
     });
-    this.auth.userRoleState.subscribe((role) => {
-      this.isAdmin = role === 1;
+    this.auth.$role.subscribe((role) => {
+      console.log("ROL SUSCRITO" ,role);
+      this.isAdmin = role == 1;
     });
   }
   delete(peticionId: number): void {
@@ -49,5 +51,20 @@ export class IndexComponent {
       (peticion) => peticion.id !== peticionId
     );
   }
-  
+  cambiarEstado(id: number): void {
+    this.peticiones.cambiarEstado(id).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.peticionesList = this.peticionesList.map((peticion) => {
+          if (peticion.id === id) {
+            return { ...peticion, estado: response.publicada };
+          }
+          return peticion;
+        });
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
+  }
 }

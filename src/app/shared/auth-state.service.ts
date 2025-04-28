@@ -7,23 +7,18 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class AuthStateService {
-  private userState: BehaviorSubject<boolean>;
-  userAuthState: Observable<boolean>;
-  private userRole = new BehaviorSubject<number | null>(null);
-  userRoleState = this.userRole.asObservable();
-
-  constructor(public token: TokenService,public authService:AuthService) {
-    this.userState = new BehaviorSubject<boolean>(this.token.isLoggedIn()!);
-    this.userAuthState = this.userState.asObservable();
-    /*this.authService.getRole().subscribe(role => {
-      this.userRole.next(role);
-    });*/
+   isAuthenticated = new BehaviorSubject<boolean>(false);
+  authStatus = this.isAuthenticated.asObservable();
+   role = new BehaviorSubject<number>(1);
+  $role = this.role.asObservable();
+  constructor(private tokenService: TokenService) {
+    this.iniciarEstados();
   }
-
-  setAuthState(value: boolean) {
-    this.userState.next(value);
-  }
-  setAuthRoleState(value:number){
-    this.userRole.next(value);
+  iniciarEstados() {
+    const token = this.tokenService.getToken();
+    if (token) {
+      this.isAuthenticated.next(true);
+      this.role.next(this.tokenService.getRole());
+    }
   }
 }

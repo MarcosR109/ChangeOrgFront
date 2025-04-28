@@ -6,10 +6,11 @@ import { TokenService } from '../../shared/token.service';
 import { AuthStateService } from '../../shared/auth-state.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { log } from 'node:console';
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.scss'],
+  styleUrls: ['./signin.component.css'],
   imports: [ReactiveFormsModule, CommonModule],
 })
 export class SigninComponent implements OnInit {
@@ -28,26 +29,23 @@ export class SigninComponent implements OnInit {
     });
   }
   ngOnInit() {}
+
   onSubmit() {
     this.authService.signin(this.loginForm.value).subscribe(
       (result) => {
-        this.responseHandler(result);
+        console.log(result);
+        if (result.access_token) {
+          this.token.saveToken(result.access_token);
+          this.token.saveRole(result.user.role_id);
+          this.authState.isAuthenticated.next(true);
+          this.authState.role.next(result.user.role_id);
+        }
+        this.loginForm.reset();
+        this.router.navigate(['/peticiones/home']);
       },
       (error) => {
         this.errors = error.error;
-      },
-      () => {
-        this.authState.setAuthState(true);
-        this.authService.getRole().subscribe((role) => {
-          this.authState.setAuthRoleState(role);
-        });
-        this.loginForm.reset();
-        this.router.navigate(['/peticiones/home']);
       }
     );
-  }
-  // Handle response
-  responseHandler(data: any) {
-    this.token.handleData(data.access_token);
   }
 }

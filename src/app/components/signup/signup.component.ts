@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-signup',
   imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  styleUrls: ['./signup.component.css'],
 })
 export class SignupComponent implements OnInit {
   registerForm: FormGroup;

@@ -13,16 +13,16 @@ import { AuthStateService } from '../../shared/auth-state.service';
   styleUrl: './myindex.component.css'
 })
 export class MyindexComponent {
-  public peticionesList: any[] = [];
+  public peticionesList!: any[];
   constructor(public peticiones:PeticionService,private authS:AuthStateService) {
-    this.peticionesList = [];
   }
   
 
   ngOnInit(): void {
-    this.peticiones.myIndex().subscribe((response) => {
+    this.peticiones.myIndex().subscribe((response:any) => {
       console.log(response);
-      this.peticionesList = response;
+      console.log("MIS PETICIONES", response.Data);
+      this.peticionesList = Object.values(response.Data);
     });
   }
 }
