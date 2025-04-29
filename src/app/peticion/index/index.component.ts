@@ -53,6 +53,7 @@ export class IndexComponent {
       console.log('nextp', this.nextPageUrl);
       console.log('prevp', this.previousPageUrl);
       console.log('tot', this.totalPages);
+      console.log('data', this.peticionesList);
     });
   }
 

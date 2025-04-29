@@ -5,9 +5,8 @@
       <div class="card my-3">
         <div class="card-body d-flex flex-column flex-sm-row">
           <img
-            src="http://127.0.0.1:8000/images/peticiones/{{
-              peticion.file?.name
-            }}"
+            *ngFor="let file of peticion.files"
+            src="http://127.0.0.1:8000/images/peticiones/{{ file?.name }}"
             alt
             width="500px"
             height="300px"

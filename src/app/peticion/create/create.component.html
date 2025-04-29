@@ -1,73 +1,162 @@
 <div class="container my-5">
-    <h3 class="fw-bold h3">Crear nueva petición</h3>
-    <div class="row">
-      <div class="col-lg-8 col-sm-12 mx-auto">
-        <div class="card my-3">
-          <div class="card-body">
-            <form [formGroup]="peticionForm" (ngSubmit)="submitForm()">
-              <div class="mb-3">
-                <label for="titulo" class="form-label fw-bold">Título de la petición</label>
-                <input type="text" id="titulo" formControlName="titulo" class="form-control"
-                  [ngClass]="{ 'is-invalid': peticionForm.get('titulo')?.invalid && peticionForm.get('titulo')?.touched }"
-                  placeholder="Escribe el título" />
-                <div *ngIf="peticionForm.get('titulo')?.invalid && peticionForm.get('titulo')?.touched"
-                  class="alert alert-danger">
-                  El título es obligatorio y debe tener al menos 5 caracteres.
-                </div>
+  <h3 class="fw-bold h3">Crear nueva petición</h3>
+  <div class="row">
+    <div class="col-lg-8 col-sm-12 mx-auto">
+      <div class="card my-3">
+        <div class="card-body">
+          <form [formGroup]="peticionForm" (ngSubmit)="submitForm()">
+            <div class="mb-3">
+              <label for="titulo" class="form-label fw-bold"
+                >Título de la petición</label
+              >
+              <input
+                type="text"
+                id="titulo"
+                formControlName="titulo"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    peticionForm.get('titulo')?.invalid &&
+                    peticionForm.get('titulo')?.touched
+                }"
+                placeholder="Escribe el título"
+              />
+              <div
+                *ngIf="
+                  peticionForm.get('titulo')?.invalid &&
+                  peticionForm.get('titulo')?.touched
+                "
+                class="alert alert-danger"
+              >
+                El título es obligatorio y debe tener al menos 5 caracteres.
               </div>
-  
-              <div class="mb-3">
-                <label for="descripcion" class="form-label fw-bold">Descripción</label>
-                <textarea id="descripcion" formControlName="descripcion" class="form-control"
-                  [ngClass]="{ 'is-invalid': peticionForm.get('descripcion')?.invalid && peticionForm.get('descripcion')?.touched }"
-                  rows="4" placeholder="Describe la petición"></textarea>
-                <div *ngIf="peticionForm.get('descripcion')?.invalid && peticionForm.get('descripcion')?.touched"
-                  class="alert alert-danger">
-                  La descripción es obligatoria y debe tener al menos 10 caracteres.
-                </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="descripcion" class="form-label fw-bold"
+                >Descripción</label
+              >
+              <textarea
+                id="descripcion"
+                formControlName="descripcion"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    peticionForm.get('descripcion')?.invalid &&
+                    peticionForm.get('descripcion')?.touched
+                }"
+                rows="4"
+                placeholder="Describe la petición"
+              ></textarea>
+              <div
+                *ngIf="
+                  peticionForm.get('descripcion')?.invalid &&
+                  peticionForm.get('descripcion')?.touched
+                "
+                class="alert alert-danger"
+              >
+                La descripción es obligatoria y debe tener al menos 10
+                caracteres.
               </div>
-  
-              <div class="mb-3">
-                <label for="destinatario" class="form-label fw-bold">Destinatarios</label>
-                <input type="text" id="destinatario" formControlName="destinatario" class="form-control"
-                  [ngClass]="{ 'is-invalid': peticionForm.get('destinatario')?.invalid && peticionForm.get('destinatario')?.touched }"
-                  placeholder="Destinatarios" />
-                <div *ngIf="peticionForm.get('destinatario')?.invalid && peticionForm.get('destinatario')?.touched"
-                  class="alert alert-danger">
-                  El destinatario es obligatorio.
-                </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="destinatario" class="form-label fw-bold"
+                >Destinatarios</label
+              >
+              <input
+                type="text"
+                id="destinatario"
+                formControlName="destinatario"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    peticionForm.get('destinatario')?.invalid &&
+                    peticionForm.get('destinatario')?.touched
+                }"
+                placeholder="Destinatarios"
+              />
+              <div
+                *ngIf="
+                  peticionForm.get('destinatario')?.invalid &&
+                  peticionForm.get('destinatario')?.touched
+                "
+                class="alert alert-danger"
+              >
+                El destinatario es obligatorio.
               </div>
-  
-              <div class="mb-3">
-                <label for="categoria" class="form-label fw-bold">Categoría</label>
-                <select id="categoria" formControlName="categoria" class="form-control"
-                  [ngClass]="{ 'is-invalid': peticionForm.get('categoria')?.invalid && peticionForm.get('categoria')?.touched }">
-                  <option *ngFor="let cat of categorias" [value]="cat.id">{{ cat.nombre }}</option>
-                </select>
-                <div *ngIf="peticionForm.get('categoria')?.invalid && peticionForm.get('categoria')?.touched"
-                  class="alert alert-danger">
-                  Debes seleccionar una categoría.
-                </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="categoria" class="form-label fw-bold"
+                >Categoría</label
+              >
+              <select
+                id="categoria"
+                formControlName="categoria"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    peticionForm.get('categoria')?.invalid &&
+                    peticionForm.get('categoria')?.touched
+                }"
+              >
+                <option *ngFor="let cat of categorias" [value]="cat.id">
+                  {{ cat.nombre }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  peticionForm.get('categoria')?.invalid &&
+                  peticionForm.get('categoria')?.touched
+                "
+                class="alert alert-danger"
+              >
+                Debes seleccionar una categoría.
               </div>
-  
-              <div class="mb-3">
-                <label for="foto" class="form-label fw-bold">Fotografía</label>
-                <input type="file" id="foto" (change)="onFileSelected($event)" class="form-control"
-                  [ngClass]="{ 'is-invalid': peticionForm.get('foto')?.invalid && peticionForm.get('foto')?.touched }"
-                  accept="image/*" />
-                <div *ngIf="peticionForm.get('foto')?.invalid && peticionForm.get('foto')?.touched"
-                  class="alert alert-danger">
-                  La fotografía es obligatoria.
-                </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="foto[]" class="form-label fw-bold">Fotografía</label>
+              <input
+                multiple="true"
+                type="file"
+                id="foto[]"
+                (change)="onFileSelected($event)"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    peticionForm.get('foto[]')?.invalid &&
+                    peticionForm.get('foto[]')?.touched
+                }"
+                accept="image/*"
+              />
+              <div
+                *ngIf="
+                  peticionForm.get('foto')?.invalid &&
+                  peticionForm.get('foto')?.touched
+                "
+                class="alert alert-danger"
+              >
+                La fotografía es obligatoria.
               </div>
-  
-              <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-danger" [disabled]="peticionForm.invalid">Crear petición</button>
+              <div *ngIf="error" class="alert alert-danger">
+                {{ error }}
               </div>
-            </form>
-          </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <button
+                type="submit"
+                class="btn btn-danger"
+                [disabled]="peticionForm.invalid"
+              >
+                Crear petición
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

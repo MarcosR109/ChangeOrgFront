@@ -10,54 +10,51 @@ import { ChangeDetectorRef } from '@angular/core';
   selector: 'app-view',
   imports: [CommonModule],
   templateUrl: './view.component.html',
-  styleUrl: './view.component.css'
+  styleUrl: './view.component.css',
 })
-export class ViewComponent implements OnInit{
-  peticion:Peticion ={};
-error:string = '';
+export class ViewComponent implements OnInit {
+  peticion: Peticion = {};
+  error: string = '';
   constructor(
-    private peticionService:PeticionService,
-    private route:ActivatedRoute,
+    private peticionService: PeticionService,
+    private route: ActivatedRoute,
     private cd: ChangeDetectorRef
-  ) {} 
+  ) {}
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       console.log('ID recibido:', id);
       if (id) {
         this.peticionService.show(Number(id)).subscribe(
           (data) => {
             this.peticion = data;
-            if (this.peticion?.file) {
-              this.peticion.file.file_path = data.file?.name;
+            if (this.peticion?.files) {
+              this.peticion.files.push(...this.peticion.files);
             }
-            console.log(this.peticion);
-            console.log(this.peticion.file?.name);
           },
           (error) => {
             console.error('Error al obtener la petición:', error);
-          },
+          }
         );
       }
     });
   }
-  firmar(id:number){
+  firmar(id: number) {
     console.log('ID a firmar:', id);
     this.peticionService.firmar(id).subscribe(
-      (data:any) => {
+      (data: any) => {
         console.log('Petición firmada:', data);
         if (this.peticion && this.peticion.firmantes !== undefined) {
           this.peticion = {
             ...this.peticion,
-            firmantes: this.peticion.firmantes + 1
+            firmantes: this.peticion.firmantes + 1,
           };
         }
       },
-      (error:any) => {
+      (error: any) => {
         this.error = 'Ya has firmado esta petición';
         console.error('Error al firmar la petición:', error);
       }
     );
   }
-
 }

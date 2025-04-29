@@ -10,6 +10,7 @@ import { PeticionService } from '../peticion.service';
 import { Peticion } from '../../interfaces/peticion';
 import { Router, RouterOutlet, RouterModule } from '@angular/router';
 import { Categoria } from '../../interfaces/categoria';
+import { log } from 'console';
 @Component({
   selector: 'app-create',
   imports: [CommonModule, ReactiveFormsModule],
@@ -19,7 +20,7 @@ import { Categoria } from '../../interfaces/categoria';
 export class CreateComponent implements OnInit {
   peticionForm!: FormGroup;
   categorias!: Categoria[];
-
+  error: string = '';
   constructor(
     private fb: FormBuilder,
     private petiS: PeticionService,
@@ -46,9 +47,16 @@ export class CreateComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
+    if (event.target.files.length > 3) {
+      this.error = 'Máximo de tres fotos';
+      return;
+    }
+    this.error = '';
+    const file = event.target.files;
+    console.log('Selected file:', file);
     this.peticionForm.patchValue({ foto: file });
-    this.peticionForm.get('foto')?.updateValueAndValidity();
+    this.peticionForm.get('foto[]')?.updateValueAndValidity();
+    console.log(this.peticionForm.value.foto);
   }
 
   submitForm() {
@@ -69,16 +77,24 @@ export class CreateComponent implements OnInit {
       formData.append('categoria_id', peticion.categoria_id?.toString() || '');
 
       if (this.peticionForm.value.foto) {
-        formData.append('foto', this.peticionForm.value.foto);
+        for (let file of this.peticionForm.value.foto) {
+          formData.append('foto[]', file);
+        }
       }
 
       console.log('Enviando petición:', peticion);
-      console.log('FormData:', formData);
+      for (const value of formData.values()) {
+        for (const file of this.peticionForm.value.foto) {
+          console.log('Es un archivo:', file.name);
+        }
+
+        console.log(value);
+      }
       this.petiS.store(formData).subscribe(
         (response) => {
           console.log('Petición creada con éxito:', response);
           if (response) {
-            this.router.navigate(['/peticiones/view', response.id]);
+            // this.router.navigate(['/peticiones/view', response.id]);
           }
         },
         (error) => {

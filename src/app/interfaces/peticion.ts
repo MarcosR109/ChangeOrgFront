@@ -9,8 +9,10 @@ export interface Peticion {
   estado?: string;
   user_id?: number;
   categoria_id?: number;
-  file?:{
-    file_path?:string,
-    name?:string,
-  }
+  files?: [
+    {
+      file_path?: string;
+      name?: string;
+    }
+  ];
 }
