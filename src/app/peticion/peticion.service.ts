@@ -12,14 +12,12 @@ import { Token } from '@angular/compiler';
 export class PeticionService {
   constructor(private http: HttpClient, private tokenS: TokenService) {}
 
-  index(): Observable<Peticion[]> {
-    return this.http
-      .get<{ Message: string; Data: Peticion[] }>(
-        'http://127.0.0.1:8000/api/peticiones'
-      )
-      .pipe(
-        map((response) => response.Data, console.log(Response)) // Extraemos el array de peticiones de 'Data'
-      );
+  index() {
+    return this.http.get('http://127.0.0.1:8000/api/peticiones');
+  }
+
+  cargaPaginas(pagina: number) {
+    return this.http.get('http://127.0.0.1:8000/api/peticiones?page=' + pagina);
   }
 
   store(peticion: FormData): Observable<any> {
@@ -39,9 +37,7 @@ export class PeticionService {
       .pipe(map((response) => response.Data));
   }
   myIndex() {
-    return this.http.get(
-      'http://127.0.0.1:8000/api/peticiones/listMine'
-    );
+    return this.http.get('http://127.0.0.1:8000/api/peticiones/listMine');
   }
   delete(peticionid: number): Observable<string> {
     console.log(peticionid);
@@ -74,6 +70,11 @@ export class PeticionService {
     return this.http.put<{ Message: string; Data: Peticion }>(
       'http://localhost:8000/api/peticiones/estado/' + id,
       {}
+    );
+  }
+  firmadas() {
+    return this.http.get<{ Message: string; Data: Peticion[] }>(
+      'http://localhost:8000/api/peticiones/firmadas'
     );
   }
 }

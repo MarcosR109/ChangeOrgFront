@@ -10,6 +10,7 @@ import { HomeComponent } from './peticion/home/home.component';
 import { ViewComponent } from './peticion/view/view.component';
 import { MyindexComponent } from './peticion/myindex/myindex.component';
 import { EditComponent } from './peticion/edit/edit.component';
+import { ListarFirmadasComponent } from './peticion/listar-firmadas/listar-firmadas.component';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: SigninComponent },
@@ -20,7 +21,8 @@ export const routes: Routes = [
   { path: 'peticiones/index', component: IndexComponent },
   { path: 'peticiones/view/:id', component: ViewComponent },
   { path: 'peticiones/listMine', component: MyindexComponent },
-  {path:'peticiones/edit/:id',component:EditComponent},
+  { path: 'peticiones/listarFirmadas', component: ListarFirmadasComponent },
+  { path: 'peticiones/edit/:id', component: EditComponent },
   { path: 'index', component: IndexComponent },
 ];
 @NgModule({

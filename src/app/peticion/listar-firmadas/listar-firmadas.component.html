@@ -1,6 +1,5 @@
 <div class="container my-5">
-  <h3 class="fw-bold h3">Nuestras peticiones</h3>
-  <span class="h4">Ordenar peticiones por categoría: </span>
+  <h3 class="fw-bold h3">Peticiones firmadas</h3>
   <div class="container">
     <div *ngFor="let peticion of peticionesList" class="col-lg-8 col-sm-12">
       <div class="card my-3">
@@ -15,14 +14,6 @@
             class="img-fluid col-12 col-sm-4 rounded-2 me-3 mb-3 mb-sm-0 rounded-3"
           />
           <div>
-            <div class="d-flex justify-content-between" *ngIf="this.isAdmin">
-              <span class="badge bg-light text-dark border m-1">{{
-                peticion.categoria
-              }}</span>
-              <span class="badge bg-light text-dark border m-1">{{
-                peticion.estado
-              }}</span>
-            </div>
             <h5 class="card-title">
               {{ peticion.titulo }}
             </h5>
@@ -45,7 +36,7 @@
                   alt="Tamara Contreras del Pino"
                 />
                 <small class="text-muted">
-                  {{ peticion.userid }}
+                  {{ peticion.user_id }}
                 </small>
                 <a
                   class="text-primary mx-3"
@@ -55,27 +46,6 @@
                 <div class="alert-danger p-3 m-2 rounded-2"><span></span></div>
               </div>
             </div>
-            <div *ngIf="this.isAdmin" class="d-flex">
-              <button
-                class="btn btn-danger m-2"
-                (click)="this.delete(peticion.id)"
-              >
-                Eliminar
-              </button>
-              <button
-                class="btn btn-warning m-2"
-                [routerLink]="['/peticiones/edit/', peticion.id]"
-              >
-                Editar
-              </button>
-              <button
-                class="btn btn-info m-2"
-                *ngIf="peticion.estado == 'pendiente'"
-                (click)="cambiarEstado(peticion.id)"
-              >
-                Publicar
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -84,39 +54,7 @@
   </div>
 
   <div class="container m-3"></div>
-  <nav *ngIf="totalPages > 1">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <button
-          class="page-link"
-          (click)="onPageChange(currentPage - 1)"
-          [disabled]="currentPage === 1"
-        >
-          Anterior
-        </button>
-      </li>
 
-      <li
-        class="page-item"
-        *ngFor="let page of pagesArray()"
-        [class.active]="page === currentPage"
-      >
-        <button class="page-link" (click)="onPageChange(page)">
-          {{ page }}
-        </button>
-      </li>
-
-      <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <button
-          class="page-link"
-          (click)="onPageChange(currentPage + 1)"
-          [disabled]="currentPage === totalPages"
-        >
-          Siguiente
-        </button>
-      </li>
-    </ul>
-  </nav>
   <!-- Temas destacados -->
   <div class="col-lg-4 col-sm-12">
     <h4 class="fw-bold">Temas destacados</h4>

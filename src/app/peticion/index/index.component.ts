@@ -21,6 +21,11 @@ export class IndexComponent {
    */
   public peticionesList: any[] = [];
   public isAdmin: boolean = false;
+  currentPage = 1;
+  totalPages = 0;
+  nextPageUrl!: string | null;
+  previousPageUrl!: string | null;
+
   constructor(
     public peticiones: PeticionService,
     private auth: AuthStateService
@@ -29,15 +34,28 @@ export class IndexComponent {
   }
 
   ngOnInit(): void {
-    this.peticiones.index().subscribe((response) => {
-      console.log(response);
-      this.peticionesList = response;
-    });
+    this.cargaPeticiones();
     this.auth.$role.subscribe((role) => {
-      console.log("ROL SUSCRITO" ,role);
+      console.log('ROL SUSCRITO', role);
       this.isAdmin = role == 1;
     });
   }
+
+  cargaPeticiones(n: number = 1): void {
+    this.peticiones.cargaPaginas(n).subscribe((response: any) => {
+      console.log(response);
+      this.peticionesList = response.Data.data;
+      this.currentPage = response.Data.current_page;
+      this.nextPageUrl = response.Data.next_page_url;
+      this.totalPages = response.Data.last_page;
+      this.previousPageUrl = response.Data.prev_page_url;
+      console.log('currentp', this.currentPage);
+      console.log('nextp', this.nextPageUrl);
+      console.log('prevp', this.previousPageUrl);
+      console.log('tot', this.totalPages);
+    });
+  }
+
   delete(peticionId: number): void {
     this.peticiones.delete(peticionId).subscribe(
       (response) => {
@@ -66,5 +84,17 @@ export class IndexComponent {
         console.log(error);
       }
     );
+  }
+  pagesArray(): number[] {
+    return Array(this.totalPages)
+      .fill(0)
+      .map((_, i) => i + 1);
+  }
+
+  onPageChange(newPage: number) {
+    if (newPage < 1 || newPage > this.totalPages) {
+      return;
+    }
+    this.cargaPeticiones(newPage);
   }
 }

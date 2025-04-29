@@ -7,9 +7,9 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class AuthStateService {
-   isAuthenticated = new BehaviorSubject<boolean>(false);
+  isAuthenticated = new BehaviorSubject<boolean>(false);
   authStatus = this.isAuthenticated.asObservable();
-   role = new BehaviorSubject<number>(1);
+  role = new BehaviorSubject<number>(0);
   $role = this.role.asObservable();
   constructor(private tokenService: TokenService) {
     this.iniciarEstados();
