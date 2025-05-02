@@ -29,7 +29,7 @@ export class ViewComponent implements OnInit {
           (data) => {
             this.peticion = data;
             if (this.peticion?.files) {
-              this.peticion.files.push(...this.peticion.files);
+              console.log('Archivos:', this.peticion.files);
             }
           },
           (error) => {
