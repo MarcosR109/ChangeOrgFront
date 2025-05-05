@@ -47,13 +47,13 @@ export class PeticionService {
       )
       .pipe(map((response) => response.Message));
   }
-  edit(peticion: FormData, peticionid: number): Observable<Peticion> {
-    return this.http
-      .put<{ Message: string; Datos: Peticion }>(
-        `http://localhost:8000/api/peticiones/${peticionid}`,
-        peticion
-      )
-      .pipe(map((response) => response.Datos));
+  edit(peticion: Peticion, peticionid: number): Observable<{ Message: string; Datos: Peticion }> {
+    console.log('EDIT', peticion);
+    console.log('ID', peticionid);
+    return this.http.put<{ Message: string; Datos: Peticion }>(
+      `http://localhost:8000/api/peticiones/${peticionid}`,
+      peticion
+    );
   }
 
   cargaCategorias(): Observable<any> {

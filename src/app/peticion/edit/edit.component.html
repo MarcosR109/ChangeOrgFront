@@ -4,7 +4,7 @@
     <div class="col-lg-8 col-sm-12 mx-auto">
       <div class="card my-3">
         <div class="card-body">
-          <form [formGroup]="peticionForm" (ngSubmit)="submitForm()">
+          <form [formGroup]="peticionForm" (ngSubmit)="submitForm(peticionForm)">
             <div class="mb-3">
               <label for="titulo" class="form-label fw-bold">Título de la petición</label>
               <input type="text" id="titulo" formControlName="titulo" class="form-control"
@@ -49,7 +49,34 @@
                 Debes seleccionar una categoría.
               </div>
             </div>
-
+            <div class="mb-3">
+              <label for="foto" class="form-label fw-bold">Fotografía</label>
+              <input
+                multiple="true"
+                type="file"
+                id="foto"
+                (change)="onFileSelected($event)"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    peticionForm.get('foto')?.invalid &&
+                    peticionForm.get('foto')?.touched
+                }"
+                accept="image/*"
+              />
+              <div
+                *ngIf="
+                  peticionForm.get('foto')?.invalid &&
+                  peticionForm.get('foto')?.touched
+                "
+                class="alert alert-danger"
+              >
+                La fotografía es obligatoria.
+              </div>
+              <div *ngIf="error" class="alert alert-danger">
+                {{ error }}
+              </div>
+            </div>
             <div class="d-flex justify-content-end">
               <button type="submit" class="btn btn-danger" [disabled]="peticionForm.invalid">Editar petición</button>
             </div>

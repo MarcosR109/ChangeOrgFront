@@ -25,6 +25,7 @@ export class EditComponent implements OnInit {
   peticion!: Peticion;
   id!: number;
   categorias!: Categoria[];
+  error!: any;
   constructor(
     private fb: FormBuilder,
     private petiS: PeticionService,
@@ -57,6 +58,7 @@ export class EditComponent implements OnInit {
       descripcion: ['', [Validators.required, Validators.minLength(10)]],
       destinatario: ['', Validators.required],
       categoria: ['', Validators.required],
+      foto: [null, Validators.required],
     });
     this.petiS.cargaCategorias().subscribe(
       (response) => {
@@ -68,18 +70,39 @@ export class EditComponent implements OnInit {
       }
     );
   }
-  submitForm() {
-    //const formData = new FormData();
-    //formData.append('titulo', peticion.titulo);
-    //formData.append('descripcion', peticion.descripcion);
-    //formData.append('destinatario', peticion.destinatario);
-    //formData.append('categoria_id', peticion.categoria_id?.toString());
+  onFileSelected(event: any) {
+    if (event.target.files.length > 3) {
+      this.error = 'Máximo de tres fotos';
+      return;
+    }
+    this.error = '';
+    const file = event.target.files;
+    console.log('Selected file:', file);
+    this.peticionForm.patchValue({ foto: file });
+    this.peticionForm.get('foto[]')?.updateValueAndValidity();
+    console.log('value' , this.peticionForm.get('foto[]'));
+  }
+  submitForm(peticionForm: FormGroup) {
+    
+    const formData = new FormData();
+    formData.append('titulo', peticionForm.value.titulo || '');
+    formData.append('descripcion', peticionForm.value.descripcion || '');
+    formData.append('destinatario', peticionForm.value.destinatario || '');
+    formData.append('categoria_id', peticionForm.value.categoria_id?.toString() || '');
+    formData.append('_method', 'POST');
+    if (peticionForm.value.foto) {
+      for (let file of peticionForm.value.foto) {
+        console.log('file', file);
+        formData.append('foto', file);
+      }
+    }
 
+    console.log(this.peticionForm.value);
     this.petiS.edit(this.peticionForm.value, this.id).subscribe(
       (response) => {
         console.log('Petición modificada con éxito:', response);
         if (response) {
-          this.router.navigate(['/peticiones/view', response.id]);
+         // this.router.navigate(['/peticiones/view', response.id]);
         }
       },
       (error) => {
